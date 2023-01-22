@@ -1,0 +1,36 @@
+version: "3"
+
+# Você pode escolher livremente qual servidor executar. Eles não dependem um do outro.
+# Este arquivo fornece um exemplo de configuração para ambos os jogos.
+
+services:
+  ets2-server:
+    image: anonimo18032000/ets2-server
+    # imagem: ghcr.io/anonimo18032000/ets2-server # Registro de contêiner do GitHub
+    container_name: ets2-server
+    restart: unless-stopped
+    tty: true
+    network_mode: host # importante fazer o jogo aparecer na lista de servidores
+    # se você quiser entrar via token de junção direta (exibido nos logs na inicialização), você pode usar o mapeamento de porta
+    # o jogo não aparecerá na lista de servidores porque o servidor não pode determinar o IP externo
+    ports:
+      - "27015:27015"
+      - "27016:27016"
+      - "27015:27015/udp"
+      - "27016:27016/udp"
+    volumes:
+      - "/opt/ets2-server/game-data:/app" # dados do servidor
+      - "/opt/ets2-server/save-data:/root/.local/share/Euro Truck Simulator 2"  # Necessário apenas ao usar personalizado server_packages.sii e server_packages.dat
+    environment:
+      - "ETS_SERVER_UPDATE_ON_START=true"
+      - "ETS_SERVER_NAME=MEU PAI TRANSPORTES - DanielSantos"
+      - "ETS_SERVER_DESCRIPTION=Grupo da Empresa: https://discord.gg/h3dNxq6E"
+      - "ETS_SERVER_WELCOME_MESSAGE=Bem-vindo ao Sessao da MEU PAI TRANSPORTES. Boa viagem!"
+      - "ETS_SERVER_PASSWORD="
+      - "ETS_SERVER_MAX_PLAYERS=8"
+      - "ETS_SERVER_PORT=27015"
+      - "ETS_SERVER_QUERY_PORT=27016"
+      - "ETS_SERVER_TRAFFIC=true"
+      - "ETS_SERVER_SHOW_SERVER=true"
+      - "ETS_SERVER_MODERATORS=76561198999110269"
+      # mais variáveis...
